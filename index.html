@@ -257,22 +257,22 @@ s.f: 000000E5D19FF95C,     99aa, 2
                     </p>
 <pre>
 # main.c:27:     memset(&p, 0, sizeof(p));
-	leaq	-14(%rbp), %rax	         # p 的基底
-	movl	$10, %r8d	         # sizeof(p) = 10
+	leaq	-14(%rbp), %rax         # p 的基底
+	movl	$10, %r8d               # sizeof(p) = 10
 	...
 	call	memset
 # main.c:29:     p.a = 0x11;
-<span id="asm-p-a">	movb	$17, -14(%rbp)	         # p.a (Offset +0)</span>
+<span id="asm-p-a">	movb	$17, -14(%rbp)          # p.a (Offset +0)</span>
 # main.c:30:     p.b = 0x22334455;
-<span id="asm-p-b">	movl	$573785173, -13(%rbp)	 # p.b (Offset +1) - UNALIGNED!</span>
+<span id="asm-p-b">	movl	$573785173, -13(%rbp)   # p.b (Offset +1) - UNALIGNED!</span>
 # main.c:31:     p.c = 0x66;
-<span id="asm-p-c">	movb	$102, -9(%rbp)	         # p.c (Offset +5)</span>
+<span id="asm-p-c">	movb	$102, -9(%rbp)          # p.c (Offset +5)</span>
 # main.c:32:     p.d = 0x77;
-<span id="asm-p-d">	movb	$119, -8(%rbp)	         # p.d (Offset +6)</span>
+<span id="asm-p-d">	movb	$119, -8(%rbp)          # p.d (Offset +6)</span>
 # main.c:33:     p.e = 0x88;
-<span id="asm-p-e">	movb	$-120, -7(%rbp)	         # p.e (Offset +7)</span>
+<span id="asm-p-e">	movb	$-120, -7(%rbp)         # p.e (Offset +7)</span>
 # main.c:34:     p.f = 0x99AA;
-<span id="asm-p-f">	movw	$-26198, -6(%rbp)	 # p.f (Offset +8)</span>
+<span id="asm-p-f">	movw	$-26198, -6(%rbp)       # p.f (Offset +8)</span>
 </pre>
                 </div>
 
@@ -283,22 +283,22 @@ s.f: 000000E5D19FF95C,     99aa, 2
                     </p>
 <pre>
 # main.c:52:     memset(&s, 0, sizeof(s));
-	leaq	-32(%rbp), %rax	         # s 的基底
-	movl	$16, %r8d	         # sizeof(s) = 16
+	leaq	-32(%rbp), %rax         # s 的基底
+	movl	$16, %r8d               # sizeof(s) = 16
 	...
 	call	memset
 # main.c:54:     s.a = 0x11;
-<span id="asm-s-a">	movb	$17, -32(%rbp)	         # s.a (Offset +0)</span>
+<span id="asm-s-a">	movb	$17, -32(%rbp)          # s.a (Offset +0)</span>
 # main.c:55:     s.b = 0x22334455;
-<span id="asm-s-b">	movl	$573785173, -28(%rbp)	 # s.b (Offset +4) - ALIGNED!</span>
+<span id="asm-s-b">	movl	$573785173, -28(%rbp)   # s.b (Offset +4) - ALIGNED!</span>
 # main.c:56:     s.c = 0x66;
-<span id="asm-s-c">	movb	$102, -24(%rbp)	         # s.c (Offset +8)</span>
+<span id="asm-s-c">	movb	$102, -24(%rbp)         # s.c (Offset +8)</span>
 # main.c:57:     s.d = 0x77;
-<span id="asm-s-d">	movb	$119, -23(%rbp)	         # s.d (Offset +9)</span>
+<span id="asm-s-d">	movb	$119, -23(%rbp)         # s.d (Offset +9)</span>
 # main.c:58:     s.e = 0x88;
-<span id="asm-s-e">	movb	$-120, -22(%rbp)	 # s.e (Offset +10)</span>
+<span id="asm-s-e">	movb	$-120, -22(%rbp)        # s.e (Offset +10)</span>
 # main.c:59:     s.f = 0x99AA;
-<span id="asm-s-f">	movw	$-26198, -20(%rbp)	 # s.f (Offset +12)</span>
+<span id="asm-s-f">	movw	$-26198, -20(%rbp)      # s.f (Offset +12)</span>
 </pre>
                 </div>
             </div>
@@ -428,224 +428,224 @@ s.f: 000000E5D19FF95C,     99aa, 2
 	.def	main;	.scl	2;	.type	32;	.endef
 	.seh_proc	main
 main:
-	pushq	%rbp	                 # 備份 caller 的 frame pointer (%rbp)
+	pushq	%rbp                        # 備份 caller 的 frame pointer (%rbp)
 	.seh_pushreg	%rbp
-	movq	%rsp, %rbp	         # 將目前的 stack pointer (%rsp) 備份到 frame pointer (%rbp) 中
+	movq	%rsp, %rbp                  # 將目前的 stack pointer (%rsp) 備份到 frame pointer (%rbp) 中
 	.seh_setframe	%rbp, 0
-	subq	$64, %rsp	         # 將 stack pointer 減去 64 bytes，為所有的區域變數預留空間。
+	subq	$64, %rsp                   # 將 stack pointer 減去 64 bytes，為所有的區域變數預留空間。
 	.seh_stackalloc	64
 	.seh_endprologue
-	movl	%ecx, 16(%rbp)	         # 儲存傳入的第1個參數 `argc`
-	movq	%rdx, 24(%rbp)	         # 儲存傳入的第2個參數 `argv`
+	movl	%ecx, 16(%rbp)              # 儲存傳入的第1個參數 `argc`
+	movq	%rdx, 24(%rbp)              # 儲存傳入的第2個參數 `argv`
  # main.c:25: {
-	call	__main	                 # 呼叫 C 語言執行環境(runtime)的初始化
+	call	__main                      # 呼叫 C 語言執行環境(runtime)的初始化
  # main.c:27:     memset(&p, 0, sizeof(p));
-	leaq	-14(%rbp), %rax	         # 將 `p` 的位址 (%rbp - 14) 載入到 %rax 中
-	movl	$10, %r8d	         # 設定第 3 個參數，size = 10，到 %r8d
-	movl	$0, %edx	         # 設定第 2 個參數，value = 0，到 %edx
-	movq	%rax, %rcx	         # 設定第 1 個參數，dest = p 的位址，到 %rcx
-	call	memset	                 # 呼叫 memset(%rcx, %edx, %r8d)
+	leaq	-14(%rbp), %rax             # 將 `p` 的位址 (%rbp - 14) 載入到 %rax 中
+	movl	$10, %r8d                   # 設定第 3 個參數，size = 10，到 %r8d
+	movl	$0, %edx                    # 設定第 2 個參數，value = 0，到 %edx
+	movq	%rax, %rcx                  # 設定第 1 個參數，dest = p 的位址，到 %rcx
+	call	memset                      # 呼叫 memset(%rcx, %edx, %r8d)
  # main.c:29:     p.a = 0x11;
-	movb	$17, -14(%rbp)	         # p.a，寫入 1 byte (17 = 0x11) 到 (%rbp - 14)
+	movb	$17, -14(%rbp)              # p.a，寫入 1 byte (17 = 0x11) 到 (%rbp - 14)
  # main.c:30:     p.b = 0x22334455;
-	movl	$573785173, -13(%rbp)	 # p.b，寫入 4 bytes (long) 到 (%rbp - 13)，沒有 padding
+	movl	$573785173, -13(%rbp)       # p.b，寫入 4 bytes (long) 到 (%rbp - 13)，沒有 padding
  # main.c:31:     p.c = 0x66;
-	movb	$102, -9(%rbp)	         # p.c，寫入 1 byte 到 (%rbp - 9)
+	movb	$102, -9(%rbp)              # p.c，寫入 1 byte 到 (%rbp - 9)
  # main.c:32:     p.d = 0x77;
-	movb	$119, -8(%rbp)	         # p.d，寫入 1 byte 到 (%rbp - 8)
+	movb	$119, -8(%rbp)              # p.d，寫入 1 byte 到 (%rbp - 8)
  # main.c:33:     p.e = 0x88;
-	movb	$-120, -7(%rbp)	         # p.e，寫入 1 byte 到 (%rbp - 7)
+	movb	$-120, -7(%rbp)             # p.e，寫入 1 byte 到 (%rbp - 7)
  # main.c:34:     p.f = 0x99AA;
-	movw	$-26198, -6(%rbp)	 # p.f，寫入 2 bytes (word) 到 (%rbp - 6)
+	movw	$-26198, -6(%rbp)           # p.f，寫入 2 bytes (word) 到 (%rbp - 6)
  # main.c:36:     printf("sizeof(p):%zu\n", sizeof(p));
-	leaq	.LC0(%rip), %rax	 #, tmp124
-	movl	$10, %edx	 #,
-	movq	%rax, %rcx	 # tmp124,
-	call	printf	 #
+	leaq	.LC0(%rip), %rax
+	movl	$10, %edx
+	movq	%rax, %rcx
+	call	printf
  # main.c:37:     printf("&p:%p\n", &p);
-	leaq	-14(%rbp), %rax	 #, tmp125
-	leaq	.LC1(%rip), %rcx	 #, tmp126
-	movq	%rax, %rdx	 # tmp125,
-	call	printf	 #
+	leaq	-14(%rbp), %rax
+	leaq	.LC1(%rip), %rcx
+	movq	%rax, %rdx
+	call	printf
  # main.c:38:     printf("p.a: %p, %8x, %zu\n", &p.a, p.a, sizeof(p.a));
-	movzbl	-14(%rbp), %eax	 # p.a, _1
+	movzbl	-14(%rbp), %eax
  # main.c:38:     printf("p.a: %p, %8x, %zu\n", &p.a, p.a, sizeof(p.a));
-	movzbl	%al, %edx	 # _1, _2
-	leaq	-14(%rbp), %rax	 #, tmp127
-	leaq	.LC2(%rip), %rcx	 #, tmp128
-	movl	$1, %r9d	 #,
-	movl	%edx, %r8d	 # _2,
-	movq	%rax, %rdx	 # tmp127,
-	call	printf	 #
+	movzbl	%al, %edx
+	leaq	-14(%rbp), %rax
+	leaq	.LC2(%rip), %rcx
+	movl	$1, %r9d
+	movl	%edx, %r8d
+	movq	%rax, %rdx
+	call	printf
  # main.c:39:     printf("p.b: %p, %8x, %zu\n", &p.b, p.b, sizeof(p.b));
-	movl	-13(%rbp), %ecx	 # p.b, _3
-	leaq	-14(%rbp), %rax	 #, tmp129
-	leaq	1(%rax), %rdx	 #, tmp130
-	leaq	.LC3(%rip), %rax	 #, tmp131
-	movl	$4, %r9d	 #,
-	movl	%ecx, %r8d	 # _3,
-	movq	%rax, %rcx	 # tmp131,
-	call	printf	 #
+	movl	-13(%rbp), %ecx
+	leaq	-14(%rbp), %rax
+	leaq	1(%rax), %rdx
+	leaq	.LC3(%rip), %rax
+	movl	$4, %r9d
+	movl	%ecx, %r8d
+	movq	%rax, %rcx
+	call	printf
  # main.c:40:     printf("p.c: %p, %8x, %zu\n", &p.c, p.c, sizeof(p.c));
-	movzbl	-9(%rbp), %eax	 # p.c, _4
+	movzbl	-9(%rbp), %eax
  # main.c:40:     printf("p.c: %p, %8x, %zu\n", &p.c, p.c, sizeof(p.c));
-	movzbl	%al, %ecx	 # _4, _5
-	leaq	-14(%rbp), %rax	 #, tmp132
-	leaq	5(%rax), %rdx	 #, tmp133
-	leaq	.LC4(%rip), %rax	 #, tmp134
-	movl	$1, %r9d	 #,
-	movl	%ecx, %r8d	 # _5,
-	movq	%rax, %rcx	 # tmp134,
-	call	printf	 #
+	movzbl	%al, %ecx
+	leaq	-14(%rbp), %rax
+	leaq	5(%rax), %rdx
+	leaq	.LC4(%rip), %rax
+	movl	$1, %r9d
+	movl	%ecx, %r8d
+	movq	%rax, %rcx
+	call	printf
  # main.c:41:     printf("p.d: %p, %8x, %zu\n", &p.d, p.d, sizeof(p.d));
-	movzbl	-8(%rbp), %eax	 # p.d, _6
+	movzbl	-8(%rbp), %eax
  # main.c:41:     printf("p.d: %p, %8x, %zu\n", &p.d, p.d, sizeof(p.d));
-	movzbl	%al, %ecx	 # _6, _7
-	leaq	-14(%rbp), %rax	 #, tmp135
-	leaq	6(%rax), %rdx	 #, tmp136
-	leaq	.LC5(%rip), %rax	 #, tmp137
-	movl	$1, %r9d	 #,
-	movl	%ecx, %r8d	 # _7,
-	movq	%rax, %rcx	 # tmp137,
-	call	printf	 #
+	movzbl	%al, %ecx
+	leaq	-14(%rbp), %rax
+	leaq	6(%rax), %rdx
+	leaq	.LC5(%rip), %rax
+	movl	$1, %r9d
+	movl	%ecx, %r8d
+	movq	%rax, %rcx
+	call	printf
  # main.c:42:     printf("p.e: %p, %8x, %zu\n", &p.e, p.e, sizeof(p.e));
-	movzbl	-7(%rbp), %eax	 # p.e, _8
+	movzbl	-7(%rbp), %eax
  # main.c:42:     printf("p.e: %p, %8x, %zu\n", &p.e, p.e, sizeof(p.e));
-	movzbl	%al, %ecx	 # _8, _9
-	leaq	-14(%rbp), %rax	 #, tmp138
-	leaq	7(%rax), %rdx	 #, tmp139
-	leaq	.LC6(%rip), %rax	 #, tmp140
-	movl	$1, %r9d	 #,
-	movl	%ecx, %r8d	 # _9,
-	movq	%rax, %rcx	 # tmp140,
-	call	printf	 #
+	movzbl	%al, %ecx
+	leaq	-14(%rbp), %rax
+	leaq	7(%rax), %rdx
+	leaq	.LC6(%rip), %rax
+	movl	$1, %r9d
+	movl	%ecx, %r8d
+	movq	%rax, %rcx
+	call	printf
  # main.c:43:     printf("p.f: %p, %8x, %zu\n", &p.f, p.f, sizeof(p.f));
-	movzwl	-6(%rbp), %eax	 # p.f, _10
+	movzwl	-6(%rbp), %eax
  # main.c:43:     printf("p.f: %p, %8x, %zu\n", &p.f, p.f, sizeof(p.f));
-	movzwl	%ax, %ecx	 # _10, _11
-	leaq	-14(%rbp), %rax	 #, tmp141
-	leaq	8(%rax), %rdx	 #, tmp142
-	leaq	.LC7(%rip), %rax	 #, tmp143
-	movl	$2, %r9d	 #,
-	movl	%ecx, %r8d	 # _11,
-	movq	%rax, %rcx	 # tmp143,
-	call	printf	 #
+	movzwl	%ax, %ecx
+	leaq	-14(%rbp), %rax
+	leaq	8(%rax), %rdx
+	leaq	.LC7(%rip), %rax
+	movl	$2, %r9d
+	movl	%ecx, %r8d
+	movq	%rax, %rcx
+	call	printf
  # main.c:45:     uint32_t x = p.b;
-	movl	-13(%rbp), %eax	 # p.b, tmp144
-	movl	%eax, -4(%rbp)	 # tmp144, x
+	movl	-13(%rbp), %eax
+	movl	%eax, -4(%rbp)
  # main.c:46:     printf("\n");
-	movl	$10, %ecx	 #,
-	call	putchar	 #
+	movl	$10, %ecx
+	call	putchar
  # main.c:47:     printf("x  : %x\n", x);
-	movl	-4(%rbp), %eax	 # x, tmp145
-	leaq	.LC8(%rip), %rcx	 #, tmp146
-	movl	%eax, %edx	 # tmp145,
-	call	printf	 #
+	movl	-4(%rbp), %eax
+	leaq	.LC8(%rip), %rcx
+	movl	%eax, %edx
+	call	printf
  # main.c:48:     printf("p.b: %x\n", p.b);
-	movl	-13(%rbp), %eax	 # p.b, _12
-	leaq	.LC9(%rip), %rcx	 #, tmp147
-	movl	%eax, %edx	 # _12,
-	call	printf	 #
+	movl	-13(%rbp), %eax
+	leaq	.LC9(%rip), %rcx
+	movl	%eax, %edx
+	call	printf
  # main.c:49:     printf("\n");
-	movl	$10, %ecx	 #,
-	call	putchar	 #
+	movl	$10, %ecx
+	call	putchar
  # main.c:52:     memset(&s, 0, sizeof(s));
-	leaq	-32(%rbp), %rax	         # 將 `s` 的位址 (%rbp - 32) 載入到 %rax 中
-	movl	$16, %r8d	         # 設定第 3 個參數，size = 16，到 %r8d
-	movl	$0, %edx	         # 設定第 2 個參數，value = 0，到 %edx
-	movq	%rax, %rcx	         # 設定第 1 個參數，dest = s 的位址，到 %rcx
-	call	memset	                 # 呼叫 memset(%rcx, %edx, %r8d)
+	leaq	-32(%rbp), %rax             # 將 `s` 的位址 (%rbp - 32) 載入到 %rax 中
+	movl	$16, %r8d                   # 設定第 3 個參數，size = 16，到 %r8d
+	movl	$0, %edx                    # 設定第 2 個參數，value = 0，到 %edx
+	movq	%rax, %rcx                  # 設定第 1 個參數，dest = s 的位址，到 %rcx
+	call	memset                      # 呼叫 memset(%rcx, %edx, %r8d)
  # main.c:54:     s.a = 0x11;
-	movb	$17, -32(%rbp)	         # 寫入 1 byte 到 (%rbp - 32)
+	movb	$17, -32(%rbp)              # 寫入 1 byte 到 (%rbp - 32)
  # main.c:55:     s.b = 0x22334455;
-	movl	$573785173, -28(%rbp)	 # 寫入 4 bytes 到 (%rbp - 28)，加入了 3 bytes padding
+	movl	$573785173, -28(%rbp)       # 寫入 4 bytes 到 (%rbp - 28)，加入了 3 bytes padding
  # main.c:56:     s.c = 0x66;
-	movb	$102, -24(%rbp)	         # 寫入 1 byte 到 (%rbp - 24)
+	movb	$102, -24(%rbp)             # 寫入 1 byte 到 (%rbp - 24)
  # main.c:57:     s.d = 0x77;
-	movb	$119, -23(%rbp)	         # 寫入 1 byte 到 (%rbp - 23)
+	movb	$119, -23(%rbp)             # 寫入 1 byte 到 (%rbp - 23)
  # main.c:58:     s.e = 0x88;
-	movb	$-120, -22(%rbp)	 # 寫入 1 byte 到 (%rbp - 22)
+	movb	$-120, -22(%rbp)            # 寫入 1 byte 到 (%rbp - 22)
  # main.c:59:     s.f = 0x99AA;
-	movw	$-26198, -20(%rbp)	 # 寫入 2 bytes 到 (%rbp - 20)
+	movw	$-26198, -20(%rbp)          # 寫入 2 bytes 到 (%rbp - 20)，加入了 1 byte padding
  # main.c:61:     printf("sizeof(s):%zu\n", sizeof(s));
-	leaq	.LC10(%rip), %rax	 #, tmp149
-	movl	$16, %edx	 #,
-	movq	%rax, %rcx	 # tmp149,
-	call	printf	 #
+	leaq	.LC10(%rip), %rax
+	movl	$16, %edx
+	movq	%rax, %rcx
+	call	printf
  # main.c:62:     printf("&s:%p\n", &s);
-	leaq	-32(%rbp), %rax	 #, tmp150
-	leaq	.LC11(%rip), %rcx	 #, tmp151
-	movq	%rax, %rdx	 # tmp150,
-	call	printf	 #
+	leaq	-32(%rbp), %rax
+	leaq	.LC11(%rip), %rcx
+	movq	%rax, %rdx
+	call	printf
  # main.c:63:     printf("s.a: %p, %8x, %zu\n", &s.a, s.a, sizeof(s.a));
-	movzbl	-32(%rbp), %eax	 # s.a, _13
+	movzbl	-32(%rbp), %eax
  # main.c:63:     printf("s.a: %p, %8x, %zu\n", &s.a, s.a, sizeof(s.a));
-	movzbl	%al, %edx	 # _13, _14
-	leaq	-32(%rbp), %rax	 #, tmp152
-	leaq	.LC12(%rip), %rcx	 #, tmp153
-	movl	$1, %r9d	 #,
-	movl	%edx, %r8d	 # _14,
-	movq	%rax, %rdx	 # tmp152,
-	call	printf	 #
+	movzbl	%al, %edx
+	leaq	-32(%rbp), %rax
+	leaq	.LC12(%rip), %rcx
+	movl	$1, %r9d
+	movl	%edx, %r8d
+	movq	%rax, %rdx
+	call	printf
  # main.c:64:     printf("s.b: %p, %8x, %zu\n", &s.b, s.b, sizeof(s.b));
-	movl	-28(%rbp), %ecx	 # s.b, _15
-	leaq	-32(%rbp), %rax	 #, tmp154
-	leaq	4(%rax), %rdx	 #, tmp155
-	leaq	.LC13(%rip), %rax	 #, tmp156
-	movl	$4, %r9d	 #,
-	movl	%ecx, %r8d	 # _15,
-	movq	%rax, %rcx	 # tmp156,
-	call	printf	 #
+	movl	-28(%rbp), %ecx
+	leaq	-32(%rbp), %rax
+	leaq	4(%rax), %rdx
+	leaq	.LC13(%rip), %rax
+	movl	$4, %r9d
+	movl	%ecx, %r8d
+	movq	%rax, %rcx
+	call	printf
  # main.c:65:     printf("s.c: %p, %8x, %zu\n", &s.c, s.c, sizeof(s.c));
-	movzbl	-24(%rbp), %eax	 # s.c, _16
+	movzbl	-24(%rbp), %eax
  # main.c:65:     printf("s.c: %p, %8x, %zu\n", &s.c, s.c, sizeof(s.c));
-	movzbl	%al, %ecx	 # _16, _17
-	leaq	-32(%rbp), %rax	 #, tmp157
-	leaq	8(%rax), %rdx	 #, tmp158
-	leaq	.LC14(%rip), %rax	 #, tmp159
-	movl	$1, %r9d	 #,
-	movl	%ecx, %r8d	 # _17,
-	movq	%rax, %rcx	 # tmp159,
-	call	printf	 #
+	movzbl	%al, %ecx
+	leaq	-32(%rbp), %rax
+	leaq	8(%rax), %rdx
+	leaq	.LC14(%rip), %rax
+	movl	$1, %r9d
+	movl	%ecx, %r8d
+	movq	%rax, %rcx
+	call	printf
  # main.c:66:     printf("s.d: %p, %8x, %zu\n", &s.d, s.d, sizeof(s.d));
-	movzbl	-23(%rbp), %eax	 # s.d, _18
+	movzbl	-23(%rbp), %eax
  # main.c:66:     printf("s.d: %p, %8x, %zu\n", &s.d, s.d, sizeof(s.d));
-	movzbl	%al, %ecx	 # _18, _19
-	leaq	-32(%rbp), %rax	 #, tmp160
-	leaq	9(%rax), %rdx	 #, tmp161
-	leaq	.LC15(%rip), %rax	 #, tmp162
-	movl	$1, %r9d	 #,
-	movl	%ecx, %r8d	 # _19,
-	movq	%rax, %rcx	 # tmp162,
-	call	printf	 #
+	movzbl	%al, %ecx
+	leaq	-32(%rbp), %rax
+	leaq	9(%rax), %rdx
+	leaq	.LC15(%rip), %rax
+	movl	$1, %r9d
+	movl	%ecx, %r8d
+	movq	%rax, %rcx
+	call	printf
  # main.c:67:     printf("s.e: %p, %8x, %zu\n", &s.e, s.e, sizeof(s.e));
-	movzbl	-22(%rbp), %eax	 # s.e, _20
+	movzbl	-22(%rbp), %eax
  # main.c:67:     printf("s.e: %p, %8x, %zu\n", &s.e, s.e, sizeof(s.e));
-	movzbl	%al, %ecx	 # _20, _21
-	leaq	-32(%rbp), %rax	 #, tmp163
-	leaq	10(%rax), %rdx	 #, tmp164
-	leaq	.LC16(%rip), %rax	 #, tmp165
-	movl	$1, %r9d	 #,
-	movl	%ecx, %r8d	 # _21,
-	movq	%rax, %rcx	 # tmp165,
-	call	printf	 #
+	movzbl	%al, %ecx
+	leaq	-32(%rbp), %rax
+	leaq	10(%rax), %rdx
+	leaq	.LC16(%rip), %rax
+	movl	$1, %r9d
+	movl	%ecx, %r8d
+	movq	%rax, %rcx
+	call	printf
  # main.c:68:     printf("s.f: %p, %8x, %zu\n", &s.f, s.f, sizeof(s.f));
-	movzwl	-20(%rbp), %eax	 # s.f, _22
+	movzwl	-20(%rbp), %eax
  # main.c:68:     printf("s.f: %p, %8x, %zu\n", &s.f, s.f, sizeof(s.f));
-	movzwl	%ax, %ecx	 # _22, _23
-	leaq	-32(%rbp), %rax	 #, tmp166
-	leaq	12(%rax), %rdx	 #, tmp167
-	leaq	.LC17(%rip), %rax	 #, tmp168
-	movl	$2, %r9d	 #,
-	movl	%ecx, %r8d	 # _23,
-	movq	%rax, %rcx	 # tmp168,
-	call	printf	 #
+	movzwl	%ax, %ecx
+	leaq	-32(%rbp), %rax
+	leaq	12(%rax), %rdx
+	leaq	.LC17(%rip), %rax
+	movl	$2, %r9d
+	movl	%ecx, %r8d
+	movq	%rax, %rcx
+	call	printf
  # main.c:70:     return 0;
-	movl	$0, %eax	         # 將傳回值 0 放入 %eax 暫存器。
+	movl	$0, %eax                    # 將傳回值 0 放入 %eax 暫存器。
  # main.c:71: }
-	addq	$64, %rsp	         # 將 stack pointer 加上 64 bytes，釋放區域變數空間。
-	popq	%rbp	                 # 還原 caller 的 frame pointer。
-	ret	                         # 返回至 caller 的呼叫處。
+	addq	$64, %rsp                   # 將 stack pointer 加上 64 bytes，釋放區域變數空間。
+	popq	%rbp                        # 還原 caller 的 frame pointer。
+	ret                                 # 返回至 caller 的呼叫處。
 	.seh_endproc
 	.def	__main;	.scl	2;	.type	32;	.endef
 	.ident	"GCC: (Rev5, Built by MSYS2 project) 15.1.0"
